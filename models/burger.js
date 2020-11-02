@@ -6,8 +6,8 @@ var burger = {
         cb(res);
       });
     },
-    createOne: function(name, cb) {
-      orm.createOne("burgers", [
+    insertOne: function(name, cb) {
+      orm.insertOne("burgers", [
         "burger_name", "devoured"
       ], [
         name, false

@@ -10,23 +10,24 @@ function printQuestionMarks(num) {
     }
   
     return arr.toString();
-  }
+  };
   
-  function objToSql(ob) {
+function objToSql(ob) {
     var arr = [];
   
     for (var key in ob) {
       arr.push(key + "=" + ob[key]);
     }
   
-    return arr.toString();
-  }
+    return arr;
+  };
 
 
 
 var orm = {
     selectAll: function(tableInput, cb) {
         var queryString = "SELECT * FROM " + tableInput + ";";
+        console.log(queryString);
         connection.query(queryString, function(err, results) {
             if (err) {throw err};
             cb(results);
@@ -34,16 +35,19 @@ var orm = {
     },
 
     insertOne: function(table, cols, vals, cb) {
+      console.log(vals);
         var queryString = "INSERT INTO " + table;
 
         queryString += " (";
         queryString += cols.toString();
         queryString += ") ";
-        queryString += "VALUES (";
-        queryString += printQuestionMarks(vals.length);
-        queryString += ") ";
+        queryString += "VALUES ( ?, ? );";
 
-        connection.query(queryString, function (err, results) {
+        // queryString += printQuestionMarks(vals.length);
+        // queryString += ") ";
+        console.log(queryString);
+
+        connection.query(queryString, vals, function (err, results) {
             if (err) {throw err};
             cb(results);
         })
@@ -57,6 +61,7 @@ var orm = {
         queryString += objToSql(objColVals);
         queryString += " WHERE ";
         queryString += condition;
+        console.log(queryString);
         
         connection.query(queryString, function(err, results) {
             if (err) {throw err};
