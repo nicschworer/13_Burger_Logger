@@ -41,10 +41,9 @@ var orm = {
         queryString += " (";
         queryString += cols.toString();
         queryString += ") ";
-        queryString += "VALUES ( ?, ? );";
-
-        // queryString += printQuestionMarks(vals.length);
-        // queryString += ") ";
+        queryString += "VALUES (";
+        queryString += printQuestionMarks(vals.length);
+        queryString += ") ";
         console.log(queryString);
 
         connection.query(queryString, vals, function (err, results) {
